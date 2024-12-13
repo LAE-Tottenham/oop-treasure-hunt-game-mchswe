@@ -5,6 +5,9 @@ class Player():
         self.energy = 100
         self.inventory_max_weight = 50
         self.inventory = []
+        self.intelligence = 10
+        self.dexterity = 15
+        self.strength = 5
         # add more atributes as needed
 
     def calculate_inventory_size(self):
