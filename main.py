@@ -1,6 +1,7 @@
 from place import Place
 from player import Player
 from item import Item
+from monster import Monster
 
 class Game():
     def __init__(self):

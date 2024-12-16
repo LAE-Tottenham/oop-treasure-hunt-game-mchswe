@@ -11,8 +11,8 @@ class Player():
         # add more atributes as needed
 
     def calculate_inventory_size(self):
-        # write code here
-        pass
+        length = len(self.inventory)
+        print(length)
 
     def add_item(self, item_instance):
         if self.calculate_inventory_size() > self.inventory_max_weight:
@@ -25,6 +25,15 @@ class Player():
             self.energy += 50
         elif item_instance.type == "medicine":
             self.health += 50
+        elif item_instance.type == "STR Potion":
+            self.strength += 25
+        elif item_instance.type == "book":
+            self.intelligence += 25
         # add more code here
 
     # add more methods as needed
+    def train(self):
+        self.dexterity += 10
+        self.strength += 15
+    
+    def attack(self, )
