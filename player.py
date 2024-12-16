@@ -36,4 +36,5 @@ class Player():
         self.dexterity += 10
         self.strength += 15
     
-    def attack(self, )
+    def attack(self, monster):
+        pass # figure out how to do this
