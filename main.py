@@ -2,6 +2,8 @@ from place import Place
 from player import Player
 from item import Item
 from monster import Monster
+from monster import BossMonster
+from npc import NPC
 
 class Game():
     def __init__(self):
@@ -46,10 +48,11 @@ class Game():
         self.current_place.show_next_places()
         opt = input("""
 What would you like to do?
-1. Go to a place
-2. Pickup item
-3. Check inventory
-etc.      
+1. Go to a Place
+2. Pickup Item
+3. Check Inventory
+4. Inspect Place
+etc.   
 """)
         if opt == "1":
             # add code

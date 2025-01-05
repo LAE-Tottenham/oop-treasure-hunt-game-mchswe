@@ -1,8 +1,8 @@
 class Monster:
     def __init__(self, name):
         self.name = name
-        self.health = 150
-        self.energy = 100
+        self.health = 200
+        self.energy = 80
 
 class BossMonster:
     def __init__(self, name):
