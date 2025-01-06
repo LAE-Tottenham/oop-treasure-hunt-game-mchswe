@@ -2,7 +2,6 @@ from place import Place
 from player import Player
 from item import Item
 from monster import Monster
-from monster import BossMonster
 from npc import NPC
 
 class Game():
@@ -19,16 +18,56 @@ class Game():
         garden = Place('Garden', 15)
         shed = Place('Shed', 3)
         cave = Place('Cave', 50)
+        pallon_village = Place("Pallon Village", 60)
+        pallon_vault = Place("Vault of Pallon", 40, True)   # Vault Keys
+        brick_crossroads = Place("Brick Crossroads", 20)
+        dunbar_quays = Place("Dunbar Quay", 40, True)   # Quay Keys
+        engardia_town = Place("Engardia Town", 70)
+        engardia_apoth = Place("Engardia Apothecary",10)
+        final_cross = Place("Longa Via", 15)
+        hrule = Place("Hrule", 30)
         
         home.add_next_place(garden)
         home.add_next_place(bedroom)
         bedroom.add_next_place(bathroom)
         garden.add_next_place(shed)
-        # etc. 
-        
+        shed.add_next_place(cave)
+        home.add_next_place(pallon_village)
+        pallon_village.add_next_place(pallon_vault)
+        pallon_village.add_next_place(brick_crossroads)
+        brick_crossroads.add_next_place(dunbar_quays)
+        brick_crossroads.add_next_place(engardia_town)
+        engardia_town.add_next_place(engardia_apoth)
+        engardia_town.add_next_place(final_cross)
+        final_cross.add_next_place(hrule)
+
         # items
-        hammer = Item('Hammer')
+        hammer = Item('Hammer', 5)
         pen = Item('Pen')
+        # Keys
+        bath_key = Item("Bathroom Key", 1, "key")
+        vault_key = Item("Pallon Vault Key", 1, "key")
+        dunbar_key = Item("Dunbar Quay Key", 1, "key")
+        # Consumables
+        medicine = Item("Medicine", 2, "medicine")
+        str_potion = Item("Strength Potion", 4, "str potion")
+        scroll = Item("Ancient Scroll", 1, "book")
+        elixir = Item("Ominous Elixir", 4, "elixir")
+        # Weapons
+        book = Item("Book", 5, "book")
+        b_sword = Item("Bastard Sword", 10, "sword") # shed
+        dagger = Item("Dagger", 8, "dagger") #  shed
+        t_dagger = Item("Thief's Dagger", 6, "dagger")  # engardia apothecary
+        excalibur = Item("Excalibur", 15, "weapon") # pallon vault
+        cadenza = Item("Cadenza", 14, "sword")  # dunbar quay
+        h_axe = Item("Heavy Axe", 15, "axe")    # pallon village
+        ifrit_axe = Item("Ifrit", 16, "axe")    # engardia apothecary
+        # Misc
+        paper = Item("Piece of Paper", 0, "misc")
+        mirror = Item("Mirror", 0, "misc")
+        bottle = Item("Glass Bottle", 0, "misc")
+        # 
+
 
         home.add_item(hammer)
         bedroom.add_item(pen)

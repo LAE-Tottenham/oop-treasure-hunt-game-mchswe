@@ -27,7 +27,7 @@ class Place():
         return self.locked
 
     def unlock(self, key_item):
-        if key_item.name == "Key":
+        if key_item.type == "key":
             self.locked = False
             print(f"{self.name} has been unlocked!")
         else:

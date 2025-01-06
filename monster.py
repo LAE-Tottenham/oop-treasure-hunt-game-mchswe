@@ -1,12 +1,17 @@
 class Monster:
-    def __init__(self, name):
+    def __init__(self, name, health, damage, is_boss):
         self.name = name
-        self.health = 200
-        self.energy = 80
+        self.health = health
+        self.attackPower = damage
+        self.is_boss = is_boss
 
-class BossMonster:
-    def __init__(self, name):
-        self.name = name
-        self.health = 500
-        self.energy = 150
-        
+    def attackPlayer(self, player):
+        player.health -= self.attackPower
+        print(f"{self.name} has attacked {player.name} for {self.damage} damage!")
+
+    def is_defeated(self):
+        if self.health <= 0:
+            print(f"{self.name} has been defeated!")
+            self.health = 0
+        else:
+            return self.health

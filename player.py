@@ -29,12 +29,23 @@ class Player():
             self.energy += 50
         elif item_instance.type == "medicine":
             self.health += 50
-        elif item_instance.type == "STR Potion":
+        elif item_instance.type == "str potion":
             self.strength += 15
         elif item_instance.type == "book":
             self.intelligence += 25
-        elif item_instance.type == "Sword":
-            self.strength *= 1.3
+        elif item_instance.type == "axe":
+            self.strength *= 1.2
+        elif item_instance.type == "sword":
+            self.strength *= 1.6
+        elif item_instance.type == "dagger":
+            self.strength *= 1.1
+        elif item_instance.type == "elixir":
+            self.strength += 10
+            self.intelligence += 10
+            self.energy += 20
+            self.dexterity += 10
+            self.health += 75
+        
         # add more code here
 
     # add more methods as needed
@@ -50,6 +61,11 @@ class Player():
                 print(f"{monster.name} has been defeated!")
         else:
             print(f"{monster.name} has already been defeated.")
+    
+    def guard(self, monster):
+        monster.attackPower *= 0.2
+        print(f"You have guarded against {monster.name}!")
+
     
     def move_to(self, place):
         if place in self.location.next_places:
