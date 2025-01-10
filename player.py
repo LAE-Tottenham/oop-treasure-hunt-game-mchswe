@@ -7,7 +7,7 @@ class Player():
         self.inventory = []
         self.intelligence = 10
         self.dexterity = 15
-        self.strength = 5
+        self.strength = 10
         self.location = None
         # add more atributes as needed
 

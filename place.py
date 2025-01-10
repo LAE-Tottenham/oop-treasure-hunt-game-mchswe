@@ -6,6 +6,7 @@ class Place():
         self.locked = locked
         self.next_places = []
         self.items = []
+        self.monsters = []
         # add more atributes as needed
 
     def add_next_place(self, place_instance):
@@ -16,6 +17,9 @@ class Place():
     
     def remove_item(self, item_instance):
         self.items.remove(item_instance)
+    
+    def add_monster(self, monster_instance):
+        self.monsters.append(monster_instance)
 
     def show_next_places(self):
         print("The possible places you can go to are: ")

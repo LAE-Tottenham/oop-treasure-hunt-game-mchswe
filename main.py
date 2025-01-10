@@ -62,15 +62,55 @@ class Game():
         cadenza = Item("Cadenza", 14, "sword")  # dunbar quay
         h_axe = Item("Heavy Axe", 15, "axe")    # pallon village
         ifrit_axe = Item("Ifrit", 16, "axe")    # engardia apothecary
+        caladbolg = Item("Caladbolg", 18, "sword")  # hrule
         # Misc
         paper = Item("Piece of Paper", 0, "misc")
         mirror = Item("Mirror", 0, "misc")
         bottle = Item("Glass Bottle", 0, "misc")
-        # 
-
-
+        
+        # adding items to locations
         home.add_item(hammer)
         bedroom.add_item(pen)
+        bathroom.add_item(bath_key)
+        # keys added
+        pallon_vault.add_item(vault_key)
+        dunbar_quays.add_item(dunbar_key)
+        # consumables/misc added
+        engardia_apoth.add_item(medicine)
+        engardia_apoth.add_item(str_potion)
+        engardia_apoth.add_item(scroll)
+        bedroom.add_item(medicine)
+        bedroom.add_item(medicine)
+        bedroom.add_item(bottle)
+        shed.add_item(book)
+        shed.add_item(paper)
+        shed.add_item(mirror)
+        engardia_town.add_item(pen)
+        engardia_town.add_item(medicine)
+        engardia_town.add_item(str_potion)
+        dunbar_quays.add_item(elixir)        
+        # weapons added
+        engardia_apoth.add_item(t_dagger)
+        engardia_apoth.add_item(ifrit_axe)
+        dunbar_quays.add_item(cadenza)
+        shed.add_item(b_sword)
+        shed.add_item(dagger)
+        pallon_vault.add_item(excalibur)
+        pallon_village.add_item(h_axe)
+        hrule.add_item(caladbolg)
+
+        # monsters
+        goblin = Monster("Goblin", 40, 10, False)
+        hobgoblin = Monster("Hobgoblin", 80, 15, False)
+        bandit = Monster("Bandit", 60, 8, False)
+        bandit_leader = Monster("Bandit Leader", 120, 24, False)
+        vandal = Monster("Vandal", 100, 20, False)
+        gesshin = Monster("Gesshin", 320, 44, True) # hrule boss
+        hyur = Monster("Hyur", 140, 27, True) # pallon_vault boss
+        aggelos = Monster("Aggelos", 200, 32, True) # dunbar quay boss
+
+        # adding monsters to locations
+        
 
         # home will be our starting place
         self.current_place = home
@@ -95,11 +135,23 @@ etc.
 """)
         if opt == "1":
             # add code
-            pass
+            pass 
         elif opt == "2":
             # add code
             pass
         elif opt == "3":
+            # add code
+            pass
+        elif opt == "4":
+            # add code
+            pass
+        elif opt == "5":
+            # add code
+            pass
+        elif opt == "6":
+            # add code
+            pass
+        elif opt == "7":
             # add code
             pass
             
