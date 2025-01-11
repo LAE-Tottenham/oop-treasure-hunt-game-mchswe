@@ -83,3 +83,22 @@ class Player():
     
     def display_stats(self):
         print(f"Player: {self.name} \n Health: {self.health} \n Current Location: {self.location} \n Energy: {self.energy} \n Strength: {self.strength} \n Intelligence: {self.intelligence} \n Dexterity: {self.dexterity} \n Inventory: {self.inventory}")
+
+    def combat_take_turn(self, monster_instance):
+        print(f"Your Turn to Attack! \n What will you do?")
+        action = input(f" 1. Attack \n 2. Guard \n 3. Use Item")
+        if action == "1":
+            self.attack(monster_instance)
+        elif action == "2":
+            self.guard(monster_instance)
+        elif action == "3":
+            item = input("Which item would you like to use?")
+            print(f"{self.inventory}")
+            for item in self.inventory:
+                if item.name == item:
+                    self.use_item(item)
+                    break
+            else:
+                print("Invalid Item or Item not in Inventory.")
+        else:
+            print("Invalid Action. Try Again.")

@@ -165,6 +165,22 @@ class Game():
         
         # finish the setup function...
 
+    # combat logic
+
+    def combat(self, player, monster):
+        alive = True
+        while alive:
+            print(f"{player.name} is now fighting {monster.name}!")
+            while player.health > 0 and monster.health > 0:
+                player.take_turn(monster)
+                if monster.health <= 0:
+                    monster.is_defeated()
+                    break
+                monster.combat_take_turn(player)
+                if player.health <= 0:
+                    print(f"{player.name} has been defeated. \n Game Over.")
+                    alive = False
+
     def start(self):
         print("Welcome to my game...")
         print("Storyline...")
@@ -218,11 +234,35 @@ class Game():
                 print(f"Here is your invetory: \n {player.inventory}")
                 player.calculate_inventory_size()
             elif opt == "4":
-                # attack/combat logic -> attack or guard?
-                pass
+                if not self.current_place.monsters:
+                    print("No monsters in this location.")
+                else:
+                    print("Enemies in this location: ")
+                    for monster in self.current_place.monsters:
+                        print(monster.name)
+                    monster_name = input("Which enemy would you like to attack?")
+                    for monster in self.current_place.monsters:
+                        if monster.name == monster_name:
+                            self.combat(player, monster)
+                            if monster.health <= 0:
+                                self.curent_place.monsters.remove(monster)
+                            break
+                        elif player.health <= 0:
+                            print(f"{player.name} has been defeated. \n Game Over. Please try again.")
+                            play = False
+                        else:
+                            print("Invalid Monster Name. Please select from the list.")
             elif opt == "5":
-                # item usage
-                pass
+                print(f"Here are the items in your inventory: ")
+                for item in player.inventory:
+                    print(f"{item.name} - Weight: {item.weight} - Type: {item.type}")
+                item_name = input("Which item would you like to use?")
+                for item in player.inventory:
+                    if item.name == item_name:
+                        player.use_item(item)
+                        break
+                else:
+                    print("Invalid Item Name or Item Not in Inventory.")
             elif opt == "6":
                 self.current_place.description()
                 print(f"There are {self.current_place.monsters} in this location.")
@@ -236,6 +276,6 @@ class Game():
             else:
                 print("Invalid Option. Please select one of the options above.")
 
-game_set = Game()
-game_set.setup()
-game_set.start()
+game = Game()
+game.setup()
+game.start()
