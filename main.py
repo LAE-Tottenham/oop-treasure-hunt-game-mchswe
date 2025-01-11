@@ -27,23 +27,37 @@ class Game():
         final_cross = Place("Longa Via", 15)
         hrule = Place("Hrule", 30)
         
-        home.add_next_place(garden)
-        home.add_next_place(bedroom)
-        bedroom.add_next_place(bathroom)
-        garden.add_next_place(shed)
-        shed.add_next_place(cave)
-        home.add_next_place(pallon_village)
-        pallon_village.add_next_place(pallon_vault)
-        pallon_village.add_next_place(brick_crossroads)
-        brick_crossroads.add_next_place(dunbar_quays)
-        brick_crossroads.add_next_place(engardia_town)
-        engardia_town.add_next_place(engardia_apoth)
-        engardia_town.add_next_place(final_cross)
-        final_cross.add_next_place(hrule)
+        # connecting places
+        home.add_next_place(garden)    # home -> garden
+        home.add_next_place(bedroom)    # home -> bedroom
+        bedroom.add_next_place(home)    # bedroom -> home
+        bedroom.add_next_place(bathroom)    #bedroom -> bathroom
+        bathroom.add_next_place(bedroom)    # bathroom -> bedroom
+        garden.add_next_place(shed)    # garden -> shed
+        garden.add_next_place(home) # garden -> home
+        shed.add_next_place(cave)   # shed -> cave
+        cave.add_next_place(shed)   # cave -> shed
+        shed.add_next_place(garden) # shed -> garden
+        home.add_next_place(pallon_village) # home -> pallon village    
+        pallon_village.add_next_place(home) # pallon village -> home
+        pallon_village.add_next_place(pallon_vault) # pallon village -> pallon vault
+        pallon_village.add_next_place(brick_crossroads) # pallon village -> brick crossroads
+        pallon_vault.add_next_place(pallon_village) # pallon vault -> pallon village
+        brick_crossroads.add_next_place(dunbar_quays)   # brick crossroads -> dunbar quays
+        dunbar_quays.add_next_place(brick_crossroads)   # dunbar quays -> brick crossroads
+        brick_crossroads.add_next_place(pallon_village) # brick crossroads -> pallon village
+        brick_crossroads.add_next_place(engardia_town)  # brick crossroads -> engardia town
+        engardia_town.add_next_place(brick_crossroads)  # engardia town -> brick crossroads
+        engardia_town.add_next_place(engardia_apoth)    # engardia town -> engardia apothecary
+        engardia_apoth.add_next_place(engardia_town)    # engardia apothecary -> engardia town
+        engardia_town.add_next_place(final_cross)    # engardia town -> final cross
+        final_cross.add_next_place(engardia_town)   # final cross -> engardia town
+        final_cross.add_next_place(hrule)   # final cross -> hrule
+        hrule.add_next_place(final_cross)   # hrule -> final cross
 
         # items
-        hammer = Item('Hammer', 5)
-        pen = Item('Pen')
+        hammer = Item('Hammer', 5, "misc")
+        pen = Item('Pen', 0, "misc")
         # Keys
         bath_key = Item("Bathroom Key", 1, "key")
         vault_key = Item("Pallon Vault Key", 1, "key")
@@ -59,10 +73,10 @@ class Game():
         dagger = Item("Dagger", 8, "dagger") #  shed
         t_dagger = Item("Thief's Dagger", 6, "dagger")  # engardia apothecary
         excalibur = Item("Excalibur", 15, "weapon") # pallon vault
-        cadenza = Item("Cadenza", 14, "sword")  # dunbar quay
+        cadenza = Item("Cadenza", 14, "h_sword")  # dunbar quay
         h_axe = Item("Heavy Axe", 15, "axe")    # pallon village
         ifrit_axe = Item("Ifrit", 16, "axe")    # engardia apothecary
-        caladbolg = Item("Caladbolg", 18, "sword")  # hrule
+        caladbolg = Item("Caladbolg", 22, "h_sword")  # hrule
         # Misc
         paper = Item("Piece of Paper", 0, "misc")
         mirror = Item("Mirror", 0, "misc")
@@ -100,18 +114,52 @@ class Game():
         hrule.add_item(caladbolg)
 
         # monsters
-        goblin = Monster("Goblin", 40, 10, False)
-        hobgoblin = Monster("Hobgoblin", 80, 15, False)
-        bandit = Monster("Bandit", 60, 8, False)
-        bandit_leader = Monster("Bandit Leader", 120, 24, False)
-        vandal = Monster("Vandal", 100, 20, False)
-        gesshin = Monster("Gesshin", 320, 44, True) # hrule boss
+        goblin = Monster("Goblin", 40, 10, False)   # cave, pallon village
+        hobgoblin = Monster("Hobgoblin", 80, 15, False) # pallon village, pallon vault, brick crossroads
+        bandit = Monster("Bandit", 60, 8, False)    # brick crossroads, dunbar quay, engardia town
+        bandit_leader = Monster("Bandit Leader", 120, 24, False)    # engardia town, brick crossroads
+        vandal = Monster("Vandal", 100, 20, False)  # engardia town, final cross
+        gesshin = Monster("Gesshin", 380, 44, True) # hrule boss
         hyur = Monster("Hyur", 140, 27, True) # pallon_vault boss
         aggelos = Monster("Aggelos", 200, 32, True) # dunbar quay boss
 
         # adding monsters to locations
-        
 
+        # goblin spawns
+        cave.add_monster(goblin)
+        cave.add_monster(goblin)
+        cave.add_monster(goblin)
+        pallon_village.add_monster(goblin)        
+        pallon_village.add_monster(goblin)        
+        # hobgoblin spawns
+        pallon_village.add_monster(hobgoblin)
+        pallon_vault.add_monster(hobgoblin)
+        pallon_vault.add_monster(hobgoblin)
+        brick_crossroads.add_monster(hobgoblin)
+        # bandit spawns
+        brick_crossroads.add_monster(bandit)
+        brick_crossroads.add_monster(bandit)
+        dunbar_quays.add_monster(bandit)
+        dunbar_quays.add_monster(bandit)
+        engardia_town.add_monster(bandit)
+        engardia_town.add_monster(bandit_leader)
+        # vandal spawns
+        engardia_town.add_monster(vandal)
+        engardia_town.add_monster(vandal)
+        final_cross.add_monster(vandal)
+        final_cross.add_monster(vandal)
+        # boss spawns
+        hrule.add_monster(gesshin)
+        pallon_vault.add_monster(hyur)
+
+        # NPCs
+        apothecary = NPC("Apothecary", [medicine, str_potion, scroll]) # engardia apothecary
+        traveller = NPC("Travelling Wanderer", [])  # last cross
+
+        # adding NPCs to locations
+        engardia_apoth.add_npc(apothecary)
+        final_cross.add_npc(traveller)
+                
         # home will be our starting place
         self.current_place = home
         
@@ -122,36 +170,72 @@ class Game():
         print("Storyline...")
         name = input("Enter player name: ")
         player = Player(name)
+        play = True
+        while play:
+            print("You are currently in " + self.current_place.name)
+            self.current_place.show_next_places()
+            opt = input("""
+    What would you like to do?
+    1. Go to a Place
+    2. Pickup Item
+    3. Check Inventory
+    4. Attack Enemy
+    5. Use Item
+    6. Inspect Place
+    7. Train
+    8. Display Stats
+    9. Quit   
+    """)
+            if opt == "1":
+                print("Where would you like to go?")
+                self.current_place.show_next_places()
+                place_name = input("Enter where you would like to go next: ")
+                for place in self.current_place.next_places:
+                    if place.name == place_name:
+                        if place.locked:
+                            print(f"{place.name} is locked. You need a key to enter.")
+                        else:
+                            self.current_place = place
+                            print(f"You are now at {place.name}.")
+                            self.current_place.description()
+                        break 
+                    else:
+                        print("This place does not exist. Please select from one of the options.")
+            elif opt == "2":
+                print("Here are the items in this area: ")
+                for item in self.current_place.items:
+                    print(item.name)
+                item_name = input("What would you like to pick up? ")
+                for item in self.current_place.items:
+                    if item.name == item_name:
+                        player.add_item(item)
+                        self.current_place.remove_item(item)
+                        print(f"{item.name} has been picked up.")
+                        break
+                    else:
+                        print("This item does not exist in this location.")
+            elif opt == "3":
+                print(f"Here is your invetory: \n {player.inventory}")
+                player.calculate_inventory_size()
+            elif opt == "4":
+                # attack/combat logic -> attack or guard?
+                pass
+            elif opt == "5":
+                # item usage
+                pass
+            elif opt == "6":
+                self.current_place.description()
+                print(f"There are {self.current_place.monsters} in this location.")
+            elif opt == "7":
+                player.train()
+            elif opt == "8":
+                player.display_stats()
+            elif opt == "9":
+                print("Thank you for Playing.")
+                play = False
+            else:
+                print("Invalid Option. Please select one of the options above.")
 
-        print("You are currently in " + self.current_place.name)
-        self.current_place.show_next_places()
-        opt = input("""
-What would you like to do?
-1. Go to a Place
-2. Pickup Item
-3. Check Inventory
-4. Inspect Place
-etc.   
-""")
-        if opt == "1":
-            # add code
-            pass 
-        elif opt == "2":
-            # add code
-            pass
-        elif opt == "3":
-            # add code
-            pass
-        elif opt == "4":
-            # add code
-            pass
-        elif opt == "5":
-            # add code
-            pass
-        elif opt == "6":
-            # add code
-            pass
-        elif opt == "7":
-            # add code
-            pass
-            
+game_set = Game()
+game_set.setup()
+game_set.start()

@@ -7,7 +7,10 @@ class Place():
         self.next_places = []
         self.items = []
         self.monsters = []
-        # add more atributes as needed
+        self.npcs = []
+
+    def __str__(self):
+        return self.name
 
     def add_next_place(self, place_instance):
         self.next_places.append(place_instance)
@@ -20,6 +23,9 @@ class Place():
     
     def add_monster(self, monster_instance):
         self.monsters.append(monster_instance)
+
+    def add_npc(self, npc_instance):
+        self.npcs.append(npc_instance)
 
     def show_next_places(self):
         print("The possible places you can go to are: ")

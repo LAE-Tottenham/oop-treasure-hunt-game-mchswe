@@ -15,3 +15,6 @@ class Monster:
             self.health = 0
         else:
             return self.health
+    
+    def __str__(self):
+        return self.name
