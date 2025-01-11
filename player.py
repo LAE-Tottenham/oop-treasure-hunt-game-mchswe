@@ -66,8 +66,11 @@ class Player():
             if monster.health <= 0:
                 print(f"{monster.name} has been defeated!")
                 monster_loot = monster.drop_loot()
-                for item in monster_loot:
-                    self.add_item(item)
+                if monster_loot is not None:
+                    for item in monster_loot:
+                        self.add_item(item)
+                else:
+                    print("Nothing was dropped.")
         else:
             print(f"{monster.name} has already been defeated.")
     
