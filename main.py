@@ -85,10 +85,10 @@ class Game():
         # adding items to locations
         home.add_item(hammer)
         bedroom.add_item(pen)
-        bathroom.add_item(bath_key)
+        bedroom.add_item(bath_key)
         # keys added
-        pallon_vault.add_item(vault_key)
-        dunbar_quays.add_item(dunbar_key)
+        pallon_village.add_item(vault_key)
+        # add_item(dunbar_key) -- Dropped by Hobgoblin
         # consumables/misc added
         engardia_apoth.add_item(medicine)
         engardia_apoth.add_item(str_potion)
@@ -168,18 +168,16 @@ class Game():
     # combat logic
 
     def combat(self, player, monster):
-        alive = True
-        while alive:
-            print(f"{player.name} is now fighting {monster.name}!")
-            while player.health > 0 and monster.health > 0:
-                player.take_turn(monster)
-                if monster.health <= 0:
-                    monster.is_defeated()
-                    break
-                monster.combat_take_turn(player)
-                if player.health <= 0:
-                    print(f"{player.name} has been defeated. \n Game Over.")
-                    alive = False
+        print(f"{player.name} is now fighting {monster.name}!")
+        while player.health > 0 and monster.health > 0:
+            player.combat_take_turn(monster)
+            if monster.health <= 0:
+                monster.is_defeated()
+                break
+            monster.combat_take_turn(player)
+            if player.health <= 0:
+                print(f"{player.name} has been defeated. \n Game Over.")
+                break
 
     def start(self):
         print("Welcome to my game...")
@@ -188,7 +186,7 @@ class Game():
         player = Player(name)
         play = True
         while play:
-            print("You are currently in " + self.current_place.name)
+            print("You are currently in " + str(self.current_place.name))
             self.current_place.show_next_places()
             opt = input(f"""
    \n What would you like to do? Enter 1-9
@@ -210,28 +208,31 @@ class Game():
                     if place.name == place_name:
                         if place.locked:
                             print(f"{place.name} is locked. You need a key to enter.")
+                            print(" ")
+                            break
                         else:
                             self.current_place = place
                             print(f"You are now at {place.name}.")
                             self.current_place.description()
-                        break 
+                            print(" ")
+                            break 
                     else:
                         print("This place does not exist. Please select from one of the options.")
             elif opt == "2":
                 print("Here are the items in this area: ")
                 for item in self.current_place.items:
-                    print(item.name)
+                    print(str(item.name))
                 item_name = input("What would you like to pick up? ")
                 for item in self.current_place.items:
                     if item.name == item_name:
                         player.add_item(item)
                         self.current_place.remove_item(item)
-                        print(f"{item.name} has been picked up.")
+                        print(f"{str(item.name)} has been picked up.")
                         break
                     else:
                         print("This item does not exist in this location.")
             elif opt == "3":
-                print(f"Here is your invetory: \n {player.inventory}")
+                print(f"Here is your invetory: \n {str(player.inventory)}")
                 player.calculate_inventory_size()
             elif opt == "4":
                 if not self.current_place.monsters:
@@ -239,13 +240,13 @@ class Game():
                 else:
                     print("Enemies in this location: ")
                     for monster in self.current_place.monsters:
-                        print(monster.name)
-                    monster_name = input("Which enemy would you like to attack?")
+                        print(str(monster.name))
+                    monster_name = input("Which enemy would you like to attack? ")
                     for monster in self.current_place.monsters:
                         if monster.name == monster_name:
                             self.combat(player, monster)
                             if monster.health <= 0:
-                                self.curent_place.monsters.remove(monster)
+                                self.current_place.monsters.remove(monster)
                             break
                         elif player.health <= 0:
                             print(f"{player.name} has been defeated. \n Game Over. Please try again.")
@@ -264,7 +265,7 @@ class Game():
                 else:
                     print("Invalid Item Name or Item Not in Inventory.")
             elif opt == "6":
-                self.current_place.description()
+                str(self.current_place.description())
                 print(f"There are {self.current_place.monsters} in this location.")
             elif opt == "7":
                 player.train()

@@ -31,7 +31,12 @@ class Place():
         print("The possible places you can go to are: ")
         for place in self.next_places:
             # remember that next_places is a list of Place instances hence why we can use place.name
-            print(place.name)
+            print(str(place.name))
+    
+    def show_items(self):
+        print("The items in this location are: ")
+        for item in self.items:
+            print(str(item.name))
     
     def check_lock(self):
         return self.locked
@@ -44,4 +49,6 @@ class Place():
             print("You need a key to access this place.")
     
     def description(self):
-        print(f"You are at {self.name}. \n The next place(s) from here are {self.next_places}. \n The items here are: {self.items}")
+        print(f"You are at {str(self.name)}.")
+        self.show_items()
+        self.show_next_places()

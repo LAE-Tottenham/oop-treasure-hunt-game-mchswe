@@ -2,13 +2,11 @@ class Player():
     def __init__(self, given_name):
         self.name = given_name
         self.health = 100
-        self.energy = 100
         self.inventory_max_weight = 100
         self.inventory = []
         self.intelligence = 10
         self.dexterity = 15
         self.strength = 10
-        self.location = None
         # add more atributes as needed
 
     def calculate_inventory_size(self):
@@ -67,6 +65,9 @@ class Player():
             print(f"You attacked {monster.name}! {monster.name} now has {monster.health} HP.")
             if monster.health <= 0:
                 print(f"{monster.name} has been defeated!")
+                monster_loot = monster.drop_loot()
+                for item in monster_loot:
+                    self.add_item(item)
         else:
             print(f"{monster.name} has already been defeated.")
     
@@ -83,7 +84,7 @@ class Player():
             print(f"You can't go there from here.")
     
     def display_stats(self):
-        print(f"Player: {self.name} \n Health: {self.health} \n Current Location: {self.location} \n Energy: {self.energy} \n Strength: {self.strength} \n Intelligence: {self.intelligence} \n Dexterity: {self.dexterity} \n Inventory: {self.inventory}")
+        print(f"Player: {self.name} \n Health: {self.health} \n Strength: {self.strength} \n Intelligence: {self.intelligence} \n Dexterity: {self.dexterity} \n Inventory: {self.inventory}")
 
     def combat_take_turn(self, monster_instance):
         print(f"Your Turn to Attack! \n What will you do?")

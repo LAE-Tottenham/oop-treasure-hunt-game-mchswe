@@ -6,3 +6,6 @@ class Item():
     
     def __str__(self):
         return self.name
+    
+    # def __repr__(self):
+    #     return f"Item(name={self.name}, weight={self.weight}, type={self.type})"
