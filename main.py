@@ -190,8 +190,8 @@ class Game():
         while play:
             print("You are currently in " + self.current_place.name)
             self.current_place.show_next_places()
-            opt = input("""
-    What would you like to do?
+            opt = input(f"""
+   \n What would you like to do? Enter 1-9
     1. Go to a Place
     2. Pickup Item
     3. Check Inventory
@@ -200,7 +200,7 @@ class Game():
     6. Inspect Place
     7. Train
     8. Display Stats
-    9. Quit   
+    9. Quit \n   
     """)
             if opt == "1":
                 print("Where would you like to go?")
