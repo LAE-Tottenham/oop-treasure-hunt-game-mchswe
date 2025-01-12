@@ -3,6 +3,15 @@ from player import Player
 from item import Item
 from monster import Monster
 from npc import NPC
+import os
+
+def clear_screen():     # makes the game more readable
+    # windows
+    if os.name == "nt":
+        os.system("cls")
+    else:
+        #mac/linux
+        os.system("clear")
 
 class Game():
     def __init__(self):
@@ -26,8 +35,10 @@ class Game():
         engardia_apoth = Place("Engardia Apothecary",10)
         final_cross = Place("Longa Via", 15)
         hrule = Place("Hrule", 30)
+        secret_winspot = Place("Cave Corner", 10, True) # secret win spot
         
         # connecting places
+        cave.add_next_place(secret_winspot) # cave -> secret win spot # will be stuck in here if 
         home.add_next_place(garden)    # home -> garden
         home.add_next_place(bedroom)    # home -> bedroom
         bedroom.add_next_place(home)    # bedroom -> home
@@ -56,11 +67,16 @@ class Game():
         hrule.add_next_place(final_cross)   # hrule -> final cross
 
         # items
+
+        # winning item
+        win_heart = Item("Heart of Gesshin", 0, "winning_item")
+        secret_note = Item("Secret Note", 0, "secret_win")
+        # misc
         hammer = Item('Hammer', 5, "misc")
         pen = Item('Pen', 0, "misc")
         # Keys
         bath_key = Item("Bathroom Key", 1, "key")
-        vault_key = Item("Pallon Vault Key", 1, "key")
+        vault_key = Item("Vault of Pallon Key", 1, "key")
         dunbar_key = Item("Dunbar Quay Key", 1, "key")
         # Consumables
         medicine = Item("Medicine", 2, "medicine")
@@ -114,32 +130,37 @@ class Game():
         hrule.add_item(caladbolg)
 
         # monsters
-        goblin = Monster("Goblin", 40, 10, False)   # cave, pallon village
-        hobgoblin = Monster("Hobgoblin", 80, 15, False) # pallon village, pallon vault, brick crossroads
-        bandit = Monster("Bandit", 60, 8, False)    # brick crossroads, dunbar quay, engardia town
-        bandit_leader = Monster("Bandit Leader", 120, 24, False)    # engardia town, brick crossroads
-        vandal = Monster("Vandal", 100, 20, False)  # engardia town, final cross
-        gesshin = Monster("Gesshin", 380, 44, True) # hrule boss
-        hyur = Monster("Hyur", 140, 27, True) # pallon_vault boss
-        aggelos = Monster("Aggelos", 200, 32, True) # dunbar quay boss
+        goblin = Monster("Goblin", 40, 4, 7, False)   # cave, pallon village
+        sec_goblin = Monster("Minion Goblin", 40, 2, 6, False)   # cave, pallon village
+        hobgoblin = Monster("Hobgoblin", 80, 7, 12, False) # pallon village, pallon vault, brick crossroads
+        brick_hobgoblin = Monster("Weak Hobgoblin", 70, 4, 11, False)
+        bandit = Monster("Bandit", 60, 4, 7, False)    # brick crossroads, dunbar quay, engardia town
+        sec_bandit = Monster("Malnourished Bandit", 50, 2, 6, False)    # brick crossroads, dunbar quay, engardia town
+        bandit_leader = Monster("Bandit Leader", 120, 13, 19, False)    # engardia town, brick crossroads
+        vandal = Monster("Vandal", 100, 10, 15, False)  # engardia town, final cross
+        gesshin = Monster("Gesshin", 380, 26, 36, True) # hrule boss
+        hyur = Monster("Hyur", 140, 19, 23, True) # pallon_vault boss
+        aggelos = Monster("Aggelos", 200, 21, 29, True) # dunbar quay boss
+
+        #adding loot to monsters
+        gesshin.add_loot(win_heart)
+        brick_hobgoblin.add_loot(dunbar_key)
 
         # adding monsters to locations
 
         # goblin spawns
         cave.add_monster(goblin)
-        cave.add_monster(goblin)
-        cave.add_monster(goblin)
+        cave.add_monster(sec_goblin)
         pallon_village.add_monster(goblin)        
-        pallon_village.add_monster(goblin)        
+        pallon_village.add_monster(sec_goblin)        
         # hobgoblin spawns
         pallon_village.add_monster(hobgoblin)
         pallon_vault.add_monster(hobgoblin)
-        pallon_vault.add_monster(hobgoblin)
-        brick_crossroads.add_monster(hobgoblin)
+        brick_crossroads.add_monster(brick_hobgoblin)
         # bandit spawns
         brick_crossroads.add_monster(bandit)
-        brick_crossroads.add_monster(bandit)
-        dunbar_quays.add_monster(bandit)
+        brick_crossroads.add_monster(sec_bandit)
+        dunbar_quays.add_monster(sec_bandit)
         dunbar_quays.add_monster(bandit)
         engardia_town.add_monster(bandit)
         engardia_town.add_monster(bandit_leader)
@@ -147,10 +168,10 @@ class Game():
         engardia_town.add_monster(vandal)
         engardia_town.add_monster(vandal)
         final_cross.add_monster(vandal)
-        final_cross.add_monster(vandal)
         # boss spawns
         hrule.add_monster(gesshin)
         pallon_vault.add_monster(hyur)
+        dunbar_quays.add_monster(aggelos)
 
         # NPCs
         apothecary = NPC("Apothecary", [medicine, str_potion, scroll]) # engardia apothecary
@@ -174,11 +195,14 @@ class Game():
             if monster.health <= 0:
                 monster.is_defeated()
                 break
-            else:
-                monster.combat_take_turn(player)
+            monster.combat_take_turn(player)
             if player.health <= 0:
                 print(f"{player.name} has been defeated. \n Game Over.")
+                input("Press Enter to continue...")
                 break
+        print("Combat has ended.")
+        input("Press Enter to continue...")
+
 
     def start(self):
         print("Welcome to my game...")
@@ -187,6 +211,7 @@ class Game():
         player = Player(name)
         play = True
         while play:
+            clear_screen()
             print("You are currently in " + str(self.current_place.name))
             self.current_place.show_next_places()
             opt = input(f"""
@@ -208,8 +233,18 @@ class Game():
                 for place in self.current_place.next_places:
                     if place.name == place_name:
                         if place.locked:
-                            print(f"{place.name} is locked. You need a key to enter.")
-                            print(" ")
+                            key_name = f"{place.name} Key"
+                            has_key = any(item.name == key_name and item.type == "key" for item in player.inventory)
+                            if has_key:
+                                place.unlock()
+                                self.current_place = place
+                                print(f"You are now at {place.name}.")
+                                self.current_place.description()
+                                print(" ")
+                            else:
+                                print(f"{place.name} is locked. You need a key to enter.")
+                                print(" ")
+                            input("Press Enter to continue...")
                             break
                         else:
                             self.current_place = place
@@ -217,8 +252,8 @@ class Game():
                             self.current_place.description()
                             print(" ")
                             break 
-                    else:
-                        print("This place does not exist. Please select from one of the options.")
+                else:
+                    print("This place does not exist. Please select from one of the options.")
             elif opt == "2":
                 print("Here are the items in this area: ")
                 for item in self.current_place.items:
@@ -237,6 +272,7 @@ class Game():
                 for item in player.inventory:
                     print(str(item.name))
                 player.calculate_inventory_size()
+                input("Press Enter to continue...")
             elif opt == "4":
                 if not self.current_place.monsters:
                     print("No monsters in this location.")
@@ -254,8 +290,8 @@ class Game():
                         elif player.health <= 0:
                             print(f"{player.name} has been defeated. \n Game Over. Please try again.")
                             play = False
-                        else:
-                            print("Invalid Monster Name. Please select from the list.")
+                    else:
+                        print("Invalid Monster Name. Please select from the list.")
             elif opt == "5":
                 print(f"Here are the items in your inventory: ")
                 for item in player.inventory:
@@ -269,11 +305,17 @@ class Game():
                     print("Invalid Item Name or Item Not in Inventory.")
             elif opt == "6":
                 str(self.current_place.description())
-                print(f"There are {self.current_place.monsters} in this location.")
+                print(f"The monsters here are: ")
+                for monster in self.current_place.monsters:
+                    print(str(monster.name))
+                input("Press Enter to continue...")
+                
             elif opt == "7":
                 player.train()
+                input("Press Enter to continue...")
             elif opt == "8":
                 player.display_stats()
+                input("Press Enter to continue...")
             elif opt == "9":
                 print("Thank you for Playing.")
                 play = False

@@ -41,12 +41,9 @@ class Place():
     def check_lock(self):
         return self.locked
 
-    def unlock(self, key_item):
-        if key_item.type == "key":
-            self.locked = False
-            print(f"{self.name} has been unlocked!")
-        else:
-            print("You need a key to access this place.")
+    def unlock(self):
+        self.locked = False
+        print(f"{self.name} is now unlocked.")
     
     def description(self):
         print(f"You are at {str(self.name)}.")

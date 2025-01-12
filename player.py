@@ -20,6 +20,13 @@ class Player():
         if self.calculate_inventory_size() + item_instance.weight <= self.inventory_max_weight:
             self.inventory.append(item_instance)
             print(f"You picked up {item_instance.name}!")
+            if item_instance.type == "winning_item":
+                print("Congratulations on defeating Gesshin. The world of Rulia is now safe. You have won.")
+                exit()
+            if item_instance.type == "secret_item":
+                print("Use this item to unock the Secret Ending.")
+            else:
+                pass
         else:
             print("Your inventory is full...")
     
@@ -46,18 +53,22 @@ class Player():
         elif item_instance.type == "dagger":
             self.strength *= 1.1
         elif item_instance.type == "elixir":
-            self.strength += 10
+            self.strength += 30
             self.intelligence += 10
             self.energy += 20
             self.dexterity += 10
-            self.health += 75
+            self.health += 125
+        elif item_instance.type == "secret_win":
+            print("Congratulations on getting the Secret Ending!")
+            exit()
         else:
             pass
 
     def train(self):
-        self.dexterity += 5
+        self.health += 10
+        self.dexterity += 2
         self.strength += 5
-        print(f"{self.name} has trained! Your Strength is now {self.strength}. \n Your Dexterity is now {self.dexterity}.")
+        print(f"{self.name} has trained! Your Health is now {self.health} Your Strength is now {self.strength}. \n Your Dexterity is now {self.dexterity}.")
     
     def attack(self, monster):
         if monster.health > 0:
@@ -75,7 +86,8 @@ class Player():
             print(f"{monster.name} has already been defeated.")
     
     def guard(self, monster):
-        monster.attackPower *= 0.15
+        damage = monster.random_damage()
+        damage *= 0.15
         print(f"You have guarded against {monster.name}!")
 
     
@@ -87,25 +99,30 @@ class Player():
             print(f"You can't go there from here.")
     
     def display_stats(self):
-        print(f"Player: {self.name} \n Health: {self.health} \n Strength: {self.strength} \n Intelligence: {self.intelligence} \n Dexterity: {self.dexterity} \n Inventory: {self.inventory}")
+        print(f"Player: {self.name} \nHealth: {self.health} \nStrength: {self.strength} \nIntelligence: {self.intelligence} \nDexterity: {self.dexterity}")
+        print("Inventory: ")
+        for item in self.inventory:
+            print(item.name)
 
     def combat_take_turn(self, monster_instance):
         print(f"Your Turn to Attack! \n What will you do? Enter 1-4 ")
-        action = input(f" 1. Attack \n 2. Guard \n 3. Use Item \n 4. View Health \n")
+        action = input(f" 1. Attack \n 2. Guard \n 3. Use Item \n 4. View Health \n ")
         if action == "1":
             self.attack(monster_instance)
         elif action == "2":
             self.guard(monster_instance)
         elif action == "3":
-            item = input("Which item would you like to use?")
-            print(f"{self.inventory}")
+            print("Here are the items in your inventory: ")
+            for item in self.inventory:
+                print(item.name)
+            item_name = input("Which item would you like to use?")
             for item in self.inventory:
                 if item.name == item:
                     self.use_item(item)
                     break
                 else:
                     print("Invalid Item or Item not in Inventory.")   
-        elif action == 4:
+        elif action == "4":
             print(f"{self.name} has {self.health} HP.")         
         else:
             print("Invalid Action. Try Again.")

@@ -1,8 +1,10 @@
+import random
 class Monster:
-    def __init__(self, name, health, damage, is_boss):
+    def __init__(self, name, health, min_damage, max_damage, is_boss):
         self.name = name
         self.health = health
-        self.attackPower = damage
+        self.min_attackPower = min_damage
+        self.max_attackPower = max_damage
         self.is_boss = is_boss
         self.loot = []
 
@@ -17,18 +19,30 @@ class Monster:
             else:
                 return self.health
     
+    def add_loot(self, item):
+        self.loot.append(item)
+    
     def drop_loot(self):
         if self.loot:
-            print(f"{self.name} has dropped {self.loot}")
+            print(f"{self.name} has dropped: ")
+            for item in self.loot:
+                print(item.name)
+            input("Press Enter to continue...")
         else:
             print(f"{self.name} did not drop any loot.")
+            input("Press Enter to continue")
+            return []
+    
+    def random_damage(self):
+        return random.randint(self.min_attackPower, self.max_attackPower)
     
     def attackPlayer(self, player):
         if self.health > 0:
-            player.health -= self.attackPower
-            print(f"{self.name} has attacked {player.name} for {self.damage} damage!")
+            damage = self.random_damage()
+            player.health -= damage
+            print(f"{self.name} has attacked {player.name} for {damage} damage!")
         else:
             self.is_defeated()
  
     def combat_take_turn(self, player):
-        self.attackPlayer
+        self.attackPlayer(player)
