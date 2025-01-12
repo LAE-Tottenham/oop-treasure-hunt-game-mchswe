@@ -15,7 +15,7 @@ class Monster:
             if self.health <= 0:
                 print(f"{self.name} has been defeated!")
                 self.health = 0
-                self.drop_loot()
+                return self.drop_loot()
             else:
                 return self.health
     
@@ -27,6 +27,7 @@ class Monster:
             print(f"{self.name} has dropped: ")
             for item in self.loot:
                 print(item.name)
+                return self.loot
             input("Press Enter to continue...")
         else:
             print(f"{self.name} did not drop any loot.")

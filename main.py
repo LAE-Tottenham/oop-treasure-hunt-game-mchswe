@@ -99,6 +99,7 @@ class Game():
         bottle = Item("Glass Bottle", 0, "misc")
         
         # adding items to locations
+        secret_winspot.add_item(secret_note)
         home.add_item(hammer)
         bedroom.add_item(pen)
         bedroom.add_item(bath_key)
@@ -193,7 +194,9 @@ class Game():
         while player.health > 0 and monster.health > 0:
             player.combat_take_turn(monster)
             if monster.health <= 0:
-                monster.is_defeated()
+                loot = monster.is_defeated()
+                for item in loot:
+                    player.add_item(item)
                 break
             monster.combat_take_turn(player)
             if player.health <= 0:
@@ -205,8 +208,8 @@ class Game():
 
 
     def start(self):
-        print("Welcome to my game...")
-        print("Storyline...")
+        print("Welcome to Ruin of Ruliar.")
+        print(f"\n For eons, The land of Ruliar have been decimated and haunted by the forces of darkness. \n The latest of these forces is Lord Gesshin who has been terrorising the land with his minions. \n You are the last hope of the land. \n Fight through the land of Rulia, Defeat Gesshin and bring peace and prosperity to the land. \n")
         name = input("Enter player name: ")
         player = Player(name)
         play = True

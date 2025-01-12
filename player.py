@@ -21,7 +21,7 @@ class Player():
             self.inventory.append(item_instance)
             print(f"You picked up {item_instance.name}!")
             if item_instance.type == "winning_item":
-                print("Congratulations on defeating Gesshin. The world of Rulia is now safe. You have won.")
+                print("Congratulations on defeating Gesshin. The Land of Ruliar is now safe. You have won.")
                 exit()
             if item_instance.type == "secret_item":
                 print("Use this item to unock the Secret Ending.")
@@ -117,7 +117,7 @@ class Player():
                 print(item.name)
             item_name = input("Which item would you like to use?")
             for item in self.inventory:
-                if item.name == item:
+                if item.name == item_name:
                     self.use_item(item)
                     break
                 else:
