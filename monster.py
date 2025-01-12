@@ -9,9 +9,6 @@ class Monster:
     def __str__(self):
         return self.name
     
-    # def __repr__(self):
-    #     return f"Monster(name={self.name}, health={self.health}, attackPower={self.attackPower}, is_boss={self.is_boss})"
-    
     def is_defeated(self):
             if self.health <= 0:
                 print(f"{self.name} has been defeated!")

@@ -168,13 +168,14 @@ class Game():
     # combat logic
 
     def combat(self, player, monster):
-        print(f"{player.name} is now fighting {monster.name}!")
+        print(f"{player.name} is now fighting {monster.name}! ")
         while player.health > 0 and monster.health > 0:
             player.combat_take_turn(monster)
             if monster.health <= 0:
                 monster.is_defeated()
                 break
-            monster.combat_take_turn(player)
+            else:
+                monster.combat_take_turn(player)
             if player.health <= 0:
                 print(f"{player.name} has been defeated. \n Game Over.")
                 break
@@ -232,7 +233,9 @@ class Game():
                     else:
                         print("This item does not exist in this location.")
             elif opt == "3":
-                print(f"Here is your invetory: \n {str(player.inventory)}")
+                print(f"Here is your invetory: ")
+                for item in player.inventory:
+                    print(str(item.name))
                 player.calculate_inventory_size()
             elif opt == "4":
                 if not self.current_place.monsters:
@@ -241,7 +244,7 @@ class Game():
                     print("Enemies in this location: ")
                     for monster in self.current_place.monsters:
                         print(str(monster.name))
-                    monster_name = input("Which enemy would you like to attack? ")
+                    monster_name = input("Which enemy would you like to attack?:  ")
                     for monster in self.current_place.monsters:
                         if monster.name == monster_name:
                             self.combat(player, monster)
@@ -257,7 +260,7 @@ class Game():
                 print(f"Here are the items in your inventory: ")
                 for item in player.inventory:
                     print(f"{item.name} - Weight: {item.weight} - Type: {item.type}")
-                item_name = input("Which item would you like to use?")
+                item_name = input("Which item would you like to use? ")
                 for item in player.inventory:
                     if item.name == item_name:
                         player.use_item(item)

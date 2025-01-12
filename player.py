@@ -66,8 +66,11 @@ class Player():
             if monster.health <= 0:
                 print(f"{monster.name} has been defeated!")
                 monster_loot = monster.drop_loot()
-                for item in monster_loot:
-                    self.add_item(item)
+                if monster_loot is not None:
+                    for item in monster_loot:
+                        self.add_item(item)
+                else:
+                    print("No loot was dropped.")
         else:
             print(f"{monster.name} has already been defeated.")
     
@@ -87,8 +90,8 @@ class Player():
         print(f"Player: {self.name} \n Health: {self.health} \n Strength: {self.strength} \n Intelligence: {self.intelligence} \n Dexterity: {self.dexterity} \n Inventory: {self.inventory}")
 
     def combat_take_turn(self, monster_instance):
-        print(f"Your Turn to Attack! \n What will you do?")
-        action = input(f" 1. Attack \n 2. Guard \n 3. Use Item")
+        print(f"Your Turn to Attack! \n What will you do? Enter 1-4 ")
+        action = input(f" 1. Attack \n 2. Guard \n 3. Use Item \n 4. View Health \n")
         if action == "1":
             self.attack(monster_instance)
         elif action == "2":
@@ -100,7 +103,9 @@ class Player():
                 if item.name == item:
                     self.use_item(item)
                     break
-            else:
-                print("Invalid Item or Item not in Inventory.")
+                else:
+                    print("Invalid Item or Item not in Inventory.")   
+        elif action == 4:
+            print(f"{self.name} has {self.health} HP.")         
         else:
             print("Invalid Action. Try Again.")
